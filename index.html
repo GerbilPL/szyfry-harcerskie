@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szyfry harcerskie | Gabriel Pilch</title>
+    <meta name="author" content="Gabriel Pilch">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="index.js"></script>
+    <link rel="icon" href="img/favicon.ico">
+</head>
+<body>
+    <!-- Made with love and hate -; Gabriel Pilch, aka GerbilPL -->
+    <div class="cipher-box">
+        <h1 class="cipher-box-title">Szyfry harcerskie</h1>
+        <select id="selectcipher" class="select-cipher">
+            <option value="gaderypoluki">GA&dash;DE&dash;RY&dash;PO&dash;LU&dash;KI</option>
+            <option value="cezara">Szyfr Cezara</option>
+            <option value="czekoladka">Czekoladka (podgląd)</option>
+            <option value="morsa">Kod Morse'a</option>
+        </select>
+        <button type="button" id="decrypt" class="cipher-box-btn">Odszyfruj</button>
+        <button type="button" id="encrypt" class="cipher-box-btn">Zaszyfruj</button>
+        <label for="selectalphabet" class="select-alphabet-lbl">Alfabet: </label>
+        <select id="selectalphabet" class="select-alphabet">
+            <option value="0">Angielski</option>
+            <option value="1">Polski</option>
+            <option value="2">Mieszany</option>
+            <option value="3">Czekoladka</option>
+        </select>
+        <label for="ceasarskey" id="ceasarskeylbl" class="select-alphabet-lbl" style="display: none;">Klucz: </label><input type="number" id="ceasarskey" class="cipher-box-input" value="5" min="-40" max="40"  style="display: none;">
+        <h2 class="cipher-box-subtitle">Tekst do zaszyfrowania:</h2>
+        <textarea id="inputbox" class="cipher-box-txt" spellcheck="false"></textarea>
+        <h2 class="cipher-box-subtitle">Tekst do odszyfrowania:</h2>
+        <textarea id="outputbox" class="cipher-box-txt" spellcheck="false"></textarea>
+    </div>
+</body>
+</html>

@@ -1,0 +1,170 @@
+/* Made with love and hate -; Gabriel Pilch, aka GerbilPL */
+@font-face {
+    font-family: Chocolate-Cipher;
+    src: url("font/ChocolateCipher.ttf");
+}
+
+:root{
+    --main-bg-color: #232;
+    --sub-bg-color: rgba(51,51,51,0.7);
+    --txt-bg-color: #444;
+    --main-fg-color: #ddd;
+    --reversed-bg-color: #fff;
+    --reversed-fg-color: #111;
+    --accent-bg-color: #480;
+    --accent-hover-bg-color: #590;
+}
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body{
+    box-sizing: border-box;
+    color: var(--main-fg-color);
+    background-color: var(--main-bg-color);
+}
+
+div.cipher-box{
+    box-sizing: border-box;
+    margin: auto !important;
+    margin-top: 5vh !important;
+    width: 80%;
+    height: 90vh;
+    padding: 5vh;
+    text-align: center;
+    background-color: var(--sub-bg-color);
+    border-radius: 7vh;
+}
+
+textarea.cipher-box-txt{
+    width: 75%;
+    height: 30%;
+    border-radius: 2vh;
+    background-color: var(--txt-bg-color);
+    resize: none !important;
+    color: var(--main-fg-color);
+    padding: 1vh;
+    font-weight: bold;
+    font-size: 1rem;
+    
+}
+
+select.select-cipher{
+    background-color: var(--accent-bg-color);
+    color: var(--main-fg-color);
+    font-weight: bold;
+    height: 2rem;
+    border-radius: 1vh;
+    border: none;
+    width: 10rem;
+    margin-right: 1vh;
+}
+
+select.select-cipher option{
+    font-weight: bold;
+    border: none;
+}
+
+button.cipher-box-btn{
+    background-color: var(--accent-bg-color);
+    color: var(--main-fg-color);
+    font-weight: bold;
+    height: 2rem;
+    width: 6rem;
+    border-radius: 1vh;
+    border: none;
+    margin-right: 1vh;
+}
+
+h1.cipher-box-title{
+    margin-top: 0vh;
+}
+
+button.cipher-box-btn:hover{
+    background-color: var(--accent-hover-bg-color);
+    transition-duration: 150ms;
+}
+select.select-cipher:hover{
+    background-color: var(--accent-hover-bg-color);
+    transition-duration: 150ms;
+}
+
+select.select-alphabet{
+    background-color: var(--accent-bg-color);
+    color: var(--main-fg-color);
+    font-weight: bold;
+    height: 2rem;
+    border-radius: 1vh;
+    border: none;
+    width: 6rem;
+    margin-right: 1vh;
+}
+
+select.select-alphabet option{
+    font-weight: bold;
+    border: none;
+}
+
+select.select-alphabet:hover{
+    background-color: var(--accent-hover-bg-color);
+    transition-duration: 150ms;
+}
+
+label.select-alphabet-lbl{
+    font-weight: bold;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    margin-right: 0.2rem;
+}
+
+input.cipher-box-input{
+    background-color: var(--accent-bg-color);
+    color: var(--main-fg-color);
+    font-weight: bold;
+    height: 2rem;
+    width: 6rem;
+    border-radius: 1vh;
+    border: none;
+    margin-right: 1vh;
+}
+
+input.cipher-box-input:hover{
+    background-color: var(--accent-hover-bg-color);
+    transition-duration: 150ms;
+}
+
+@media only screen and (max-width: 1000px){
+    div.cipher-box{
+        width: 100%;
+        height: 100%;
+        border-radius: 0px !important;
+        padding: 1vw;
+    }
+    textarea.cipher-box-txt{
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 5px !important;
+        margin-left: 0;
+        margin-right: 0;
+        min-height: 30vh;
+    }
+    button.cipher-box-btn{
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        width: 100% !important;
+        display: block;
+        clear: both;
+    }
+    label{
+        margin-top: 1vh !important;
+        vertical-align: sub !important;
+        clear: both;
+    }
+    select{
+        margin-top: 1vh;
+        width: 100% !important;
+        display: block;
+        clear: both;
+    }
+}
