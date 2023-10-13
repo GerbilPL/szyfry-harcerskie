@@ -4,6 +4,7 @@ window.onload=function(){
     document.querySelector("#decrypt").addEventListener("click", decrypt);
     document.querySelector("#encrypt").addEventListener("click", encrypt);
     document.querySelector("#selectcipher").addEventListener("change", setselect);
+    document.querySelector("#pagecolor").addEventListener("click", changepageclr);
 };
 
 var selectedCipher="gaderypoluki";
@@ -190,4 +191,42 @@ const setselect=()=>{
     document.querySelector("#ceasarskeylbl").style.display = (selector.value=="cezara") ? "" : "none";
     document.querySelector("#ceasarskey").style.display = (selector.value=="cezara") ? "" : "none";
     selectedCipher = selector.value.toString();
+}
+
+const changepageclr=()=>{
+    // default is black bg
+    if(localStorage.getItem("pagecolor")===null||localStorage.getItem("pagecolor")=="black"){
+        localStorage.setItem("pagecolor","white");
+    } else if(localStorage.getItem("pagecolor")=="white"){
+        localStorage.setItem("pagecolor","black");
+    }
+    let pagecolor = localStorage.getItem("pagecolor");
+    pageclr(pagecolor);
+}
+
+const pageclr=(x)=>{
+    if(x=="black"){
+    document.querySelector(':root').style.setProperty('--main-bg-color','#111');
+    document.querySelector(':root').style.setProperty('--sub-bg-color','#44444486');
+    document.querySelector(':root').style.setProperty('--main-fg-color','#ddd');
+    document.querySelector(':root').style.setProperty('--accent-bg-color','#480');
+    document.querySelector(':root').style.setProperty('--accent-hover-bg-color','#590');
+    document.querySelector('h1').style.textShadow="none";
+    document.querySelector('#ceasarskeylbl').style.textShadow="none";
+    document.querySelector('h2#h21').style.textShadow="none";
+    document.querySelector('h2#h22').style.textShadow="none";
+    document.querySelector('label.select-alphabet-lbl').style.textShadow="none";
+}
+else{
+    document.querySelector(':root').style.setProperty('--main-bg-color','#DDD');
+    document.querySelector(':root').style.setProperty('--sub-bg-color','#33333346');
+    document.querySelector(':root').style.setProperty('--main-fg-color','#FFF');
+    document.querySelector(':root').style.setProperty('--accent-bg-color','#555');
+    document.querySelector(':root').style.setProperty('--accent-hover-bg-color','#777');
+    document.querySelector('h1').style.textShadow="1px 1px 8px black";
+    document.querySelector('#ceasarskeylbl').style.textShadow="1px 1px 5px black";
+    document.querySelector('h2#h21').style.textShadow="1px 1px 5px black";
+    document.querySelector('h2#h22').style.textShadow="1px 1px 5px black";
+    document.querySelector('label.select-alphabet-lbl').style.textShadow="1px 1px 5px black";
+}
 }

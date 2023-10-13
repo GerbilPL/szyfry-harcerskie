@@ -5,12 +5,10 @@
 }
 
 :root{
-    --main-bg-color: #232;
-    --sub-bg-color: rgba(51,51,51,0.7);
+    --main-bg-color: #111;
+    --sub-bg-color: #44444486;
     --txt-bg-color: #444;
     --main-fg-color: #ddd;
-    --reversed-bg-color: #fff;
-    --reversed-fg-color: #111;
     --accent-bg-color: #480;
     --accent-hover-bg-color: #590;
 }
@@ -136,6 +134,25 @@ input.cipher-box-input{
 input.cipher-box-input:hover{
     background-color: var(--accent-hover-bg-color);
     transition-duration: 150ms;
+}
+
+button.pcb-btn{
+    border-radius: 1vh;
+    border: none;
+    background-color: var(--sub-bg-color);
+    color: var(--main-fg-color);
+    font-size: 1.5rem;
+    font-weight: bolder;
+    height: 3rem;
+    width: 3rem;
+    float: right;
+    clear: both;
+    vertical-align: middle;
+}
+
+div.inl-ceasar{
+    display: inline-block;
+    margin-top: 1rem;
 }
 
 @media only screen and (max-width: 1000px){
