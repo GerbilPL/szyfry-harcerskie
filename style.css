@@ -150,9 +150,22 @@ button.pcb-btn{
     vertical-align: middle;
 }
 
+button.pcb-btn:hover{
+    font-size: 1.6rem;
+    width: 3.2rem;
+    height: 3.2rem;
+}
+
 div.inl-ceasar{
     display: inline-block;
     margin-top: 1rem;
+}
+
+span.author{
+    display: block;
+    color: var(--accent-hover-bg-color);
+    font-weight: bold;
+    margin-top: 1vh;
 }
 
 @media only screen and (max-width: 1000px){

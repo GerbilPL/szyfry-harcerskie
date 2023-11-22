@@ -1,232 +1,145 @@
 // Made with love and hate -; Gabriel Pilch, aka GerbilPL 
-// Page Version: 1.1
-window.onload=function(){
+// Page Version: 1.2
+
+const rootStyle = document.querySelector(':root').style;
+const lS = localStorage;
+window.onload=()=>{
     document.querySelector("#decrypt").addEventListener("click", decrypt);
     document.querySelector("#encrypt").addEventListener("click", encrypt);
     document.querySelector("#selectcipher").addEventListener("change", setselect);
     document.querySelector("#pagecolor").addEventListener("click", changepageclr);
+    changepageclr(true);
 };
+const morsemap = new Map([["A",".-"],["B","-..."],["C","-.-."],["D","-.."],["E","."],["F","..-."],["G","--."],["H","...."],["I",".."],["J",".---"],["K","-.-"],["L",".-.."],["M","--"],["N","-."],["O","---"],["P",".--."],["Q","--.-"],["R",".-."],["S","..."],["T","-"],["U","..-"],["V","...-"],["W",".--"],["X","-..-"],["Y","-.--"],["Z","--.."],["0","-----"],["1",".----"],["2","..---"],["3","...--"],["4","....-"],["5","....."],["6","-...."],["7","--..."],["8","---.."],["9","----."],[".",".-.-.-"],[",","--..--"],["?","..--.."],["\'",".----."],["!","-.-.--"],["/","-..-."],["(","-.--."],[")","-.--.-"],["&",".-..."],[":","---..."],[";","-.-.-."],["=","-...-"],["+",".-.-."],["-","-....-"],["_","..--.-"],["\"",".-..-."],["$","...-..-"],["@",".--.-."],[" "," / "], ["\n","\n"],["","!"]]);
+const gaderypolukimap=new Map([["G","A"],["D","E"],["R","Y"],["P","O"],["L","U"],["K","I"],["A","G"],["E","D"],["Y","R"],["O","P"],["U","L"],["I","K"]]);
+const switchmap0 = new Map([["Ą","A"],["Ć","C"],["Ę","E"],["Ł","L"],["Ń","N"],["Ó","O"],["Ś","S"],["Ź","Z"],["Ż","Z"]]);
+const switchmap1 = new Map([["Q","Ku"],["V","W"],["X","Ks"]]);
+const switchmap2 = new Map([["Ą","A"],["Ć","C"],["Ę","E"],["Ł","L"],["Ń","N"],["Ó","O"],["Ś","S"],["Ź","Z"],["Ż","Z"],["Q","Ku"],["V","W"],["X","Ks"]]);
+const alphabet = [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],["A","Ą","B","C","Ć","D","E","Ę","F","G","H","I","J","K","L","Ł","M","N","Ń","O","Ó","P","R","S","Ś","T","U","W","Y","Z","Ź","Ż"],["A","Ą","B","C","Ć","D","E","Ę","F","G","H","I","J","K","L","Ł","M","N","Ń","O","Ó","P","Q","R","S","Ś","T","U","V","W","X","Y","Z","Ź","Ż"],["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","R","S","T","U","W","Y","Z"]];
+let sCipher="gaderypoluki";
+let sAlphabet=0;
 
-var selectedCipher="gaderypoluki";
-var selectedAlphabet=0;
+const isUC=x=>x==x.toUpperCase();
 
-const alphabet = [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
-["A","Ą","B","C","Ć","D","E","Ę","F","G","H","I","J","K","L","Ł","M","N","Ń","O","Ó","P","R","S","Ś","T","U","W","Y","Z","Ź","Ż"],
-["A","Ą","B","C","Ć","D","E","Ę","F","G","H","I","J","K","L","Ł","M","N","Ń","O","Ó","P","Q","R","S","Ś","T","U","V","W","X","Y","Z","Ź","Ż"],
-["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","R","S","T","U","W","Y","Z"]];
-
-const isUC=(x)=>{
-    return x==x.toUpperCase();
-}
-
-const toUC=(input)=>{
-    let out="";
-    for(let i=0; i<input.length;i++) {
-        out+=input[i].toUpperCase();
-    }
-    return out;
-}
-
-const replaceLetters=(input)=>{
-    var output="";
-    const switchmap0 = new Map([
-        ["Ą","A"],["Ć","C"],["Ę","E"],["Ł","L"],["Ń","N"],["Ó","O"],["Ś","S"],["Ź","Z"],["Ż","Z"]
-    ]);
-    const switchmap1 = new Map([
-        ["Q","Ku"],["V","W"],["X","Ks"]
-    ]);
-    const switchmap2 = new Map([
-        ["Ą","A"],["Ć","C"],["Ę","E"],["Ł","L"],["Ń","N"],["Ó","O"],["Ś","S"],["Ź","Z"],["Ż","Z"],["Q","Ku"],["V","W"],["X","Ks"]
-    ]);
-    switch (selectedAlphabet){
+const replaceLetters=inp=>{
+    let otp='';
+    let inl=inp.length;
+    let iUC=inp.toUpperCase();
+    switch (sAlphabet){
         case 0:
-            for(let i=0;i<input.length;i++){
-                switchmap0.has(input[i].toUpperCase()) ? (output+= isUC(input[i]) ? switchmap0.get(input[i].toUpperCase()): switchmap0.get(input[i].toUpperCase()).toLowerCase()): output+=input[i];
-            }
+            for(let i=0;i<inl;i++) otp+=switchmap0.has(iUC[i]) ? (isUC(inp[i]) ? switchmap0.get(iUC[i]): switchmap0.get(iUC[i]).toLowerCase()): inp[i];
             break;
-            
         case 1:
-            for(let i=0;i<input.length;i++){
-                switchmap1.has(input[i].toUpperCase()) ? (output+= isUC(input[i]) ? switchmap1.get(input[i].toUpperCase()): switchmap1.get(input[i].toUpperCase()).toLowerCase()): output+=input[i];
-            }
+            for(let i=0;i<inl;i++) otp+=switchmap1.has(iUC[i]) ? (isUC(inp[i]) ? switchmap1.get(iUC[i]): switchmap1.get(iUC[i]).toLowerCase()): inp[i];
             break;
-            
-        case 2:
-            for(let i=0;i<input.length;i++){
-                output+=input[i];
-            }
-            break;
-            
         case 3:
-            for(let i=0;i<input.length;i++){
-                switchmap2.has(input[i].toUpperCase()) ? (output+= isUC(input[i]) ? switchmap2.get(input[i].toUpperCase()): switchmap2.get(input[i].toUpperCase()).toLowerCase()): output+=input[i];
-            }
+            for(let i=0;i<inl;i++) otp+=switchmap2.has(iUC[i]) ? (isUC(inp[i]) ? switchmap2.get(iUC[i]): switchmap2.get(iUC[i]).toLowerCase()): inp[i];
             break;
-
         default:
-            for(let i=0;i<input.length;i++){
-                output+=input[i];
-            }
-            break;
+            return inp;
     }
-    return output;
+    return otp;
 }
 
-const changeAlphabet=(x)=>{
-    selectedAlphabet=x;
-    document.querySelector("#selectalphabet").value=x;
+const changeAlphabet=x=>document.querySelector("#selectalphabet").value=sAlphabet=x;
+
+const sw=(cOpt, txt, cM)=>{
+    switch (cOpt) {
+        case "gaderypoluki":
+            return gaderypoluki(txt);
+        case "cezara":
+            return caesar(txt,cM);
+        case "morsa":
+            return morse(txt,cM);
+        default:
+            return txt;
+    }
 }
 
 const decrypt=()=>{
-    selectedAlphabet=parseInt(document.querySelector("#selectalphabet").value);
-    const inputText=(document.querySelector("#outputbox").value).toString();
-    var output="";
-    if(selectedCipher=="czekoladka") changeAlphabet(3);
-    if(selectedCipher=="morsa") changeAlphabet(0);
-    switch (selectedCipher) {
-        case "gaderypoluki":
-            output=gaderypoluki(inputText);
-            break;
-                
-        case "cezara":
-            output=caesar(inputText,0);
-                break;
-                
-        case "morsa":
-            output=morse(inputText,0);
-                break;
-        default:
-            output=inputText;
-            break;
-    }
-    document.querySelector("#inputbox").value=output;
+    sAlphabet=parseInt(document.querySelector("#selectalphabet").value);
+    let iTxt=(document.querySelector("#outputbox").value).toString();
+    sCipher=="czekoladka" ? changeAlphabet(3):(sCipher=="morsa") ? changeAlphabet(0):null;
+    document.querySelector("#inputbox").value=sw(sCipher,iTxt,0);
 }
 
 const encrypt=()=>{
-    selectedAlphabet=parseInt(document.querySelector("#selectalphabet").value)
-    const inputText=(document.querySelector("#inputbox").value).toString();
-    var output="";
-    if(selectedCipher=="czekoladka") changeAlphabet(3);
-    if(selectedCipher=="morsa") changeAlphabet(0);
-    output=replaceLetters(inputText);
-    switch (selectedCipher) {
-        case "gaderypoluki":
-            output=gaderypoluki(output);
-            break;
-                
-        case "cezara":
-            output=caesar(output,1);
-                break;
-                
-        case "morsa":
-            output=morse(output,1);
-                break;
-        default:
-            break;
-    }
-    document.querySelector("#outputbox").value=output;
+    sAlphabet=parseInt(document.querySelector("#selectalphabet").value)
+    let iTxt=(document.querySelector("#inputbox").value).toString();
+    sCipher=="czekoladka" ? changeAlphabet(3):(sCipher=="morsa") ? changeAlphabet(0):null;
+    document.querySelector("#outputbox").value=sw(sCipher,replaceLetters(iTxt),1);
 }
 
 
-const gaderypoluki=(input)=>{
-    let output="";
-    const gaderypolukimap=new Map([
-        ["G","A"],["D","E"],["R","Y"],["P","O"],["L","U"],["K","I"],
-        ["A","G"],["E","D"],["Y","R"],["O","P"],["U","L"],["I","K"]
-    ]);
-    for(let i=0;i<input.length;i++){
-        output+=(gaderypolukimap.has(input[i].toUpperCase()) ? (isUC(input[i]) ? gaderypolukimap.get(input[i].toUpperCase()): gaderypolukimap.get(input[i].toUpperCase()).toLowerCase()):input[i])
-    }
-    return output;
+const gaderypoluki=inp=>{
+    let otp='';
+    let iUC=inp.toUpperCase();
+    for(let i=0;i<inp.length;i++) otp+=(gaderypolukimap.has(iUC[i]) ? (isUC(inp[i]) ? gaderypolukimap.get(iUC[i]): gaderypolukimap.get(iUC[i]).toLowerCase()):inp[i]);
+    return otp;
 }
 
-const morse=(input,mode)=>{
-    let output="";
-    input=input.toUpperCase();
-    const morsemap = new Map([
-        ["A",".-"],["B","-..."],["C","-.-."],["D","-.."],["E","."],["F","..-."],["G","--."],["H","...."],["I",".."],["J",".---"],["K","-.-"],["L",".-.."],["M","--"],["N","-."],["O","---"],["P",".--."],["Q","--.-"],["R",".-."],["S","..."],["T","-"],["U","..-"],["V","...-"],["W",".--"],["X","-..-"],["Y","-.--"],["Z","--.."],
-        ["0","-----"],["1",".----"],["2","..---"],["3","...--"],["4","....-"],["5","....."],["6","-...."],["7","--..."],["8","---.."],["9","----."],
-        [".",".-.-.-"],[",","--..--"],["?","..--.."],["\'",".----."],["!","-.-.--"],["/","-..-."],["(","-.--."],[")","-.--.-"],["&",".-..."],[":","---..."],[";","-.-.-."],["=","-...-"],["+",".-.-."],["-","-....-"],["_","..--.-"],["\"",".-..-."],["$","...-..-"],["@",".--.-."],[" "," / "], ["\n","\n"],["","!"]
-    ]);
-    if(mode==1){
-        for(let i=0;i<input.length;i++){
-            output+=(morsemap.has(input[i]) ? morsemap.get(input[i])+((i+1==input.length)? "":" ") : " ! ")
-        }
-    }
-    else{
-        input.split(' ').forEach(element => {
+const morse=(inp, mode)=>{
+    let otp='';
+    inp=inp.toUpperCase();
+    if(mode==1) for(let i=0;i<inp.length;i++) otp+=(morsemap.has(inp[i]) ? morsemap.get(inp[i])+((i+1==inp.length)? "":' ') : " ! ");
+    else inp.split(' ').forEach(element => {
             if(element==="") return;
-            if(element==="/") {output+=" "; return;};
-            for (let [key,value] of morsemap.entries()) {
-                if(element===value) output+=key;
-            }
+            if(element==="/") {otp+=' '; return;}
+            for (let [key,value] of morsemap.entries()) if(element===value) otp+=key;
         });
-    }
-    return output;
+    return otp;
 }
 
-const caesar=(input, mode)=>{
-    var output='';
-    alphabet_lenght = alphabet[selectedAlphabet].length-1;
-    var key = parseInt(document.querySelector("#ceasarskey").value) % (alphabet_lenght+1);
+const caesar=(inp, mode)=>{
+    let otp='';
+    let iUC=inp.toUpperCase();
+    let aLen = alphabet[sAlphabet].length-1;
+    let key = parseInt(document.querySelector("#ceasarskey").value) % (aLen+1);
     if(mode==0) key*=-1;
-    for (let i=0;i<input.length;i++){
-        let tmp = input[i].toUpperCase();
-        let x = alphabet[selectedAlphabet].indexOf(tmp);
-        if(x==-1){
-            output+=input[i];
-        }
+    for (let i=0;i<inp.length;i++){
+        let tmp = iUC[i];
+        let x = alphabet[sAlphabet].indexOf(tmp);
+        if(x==-1) otp+=inp[i];
         else{
             let y = '';
-            key>=0 ? (y=alphabet[selectedAlphabet][(alphabet[selectedAlphabet].indexOf(tmp)+key<=alphabet_lenght ? alphabet[selectedAlphabet].indexOf(tmp)+key:alphabet[selectedAlphabet].indexOf(tmp)+key-alphabet_lenght-1)]):(y=alphabet[selectedAlphabet][(alphabet[selectedAlphabet].indexOf(tmp)+key>=0 ? alphabet[selectedAlphabet].indexOf(tmp)+key:alphabet[selectedAlphabet].indexOf(tmp)+key+alphabet_lenght+1)]);
-            output+= isUC(input[i]) ? y:y.toLowerCase();
+            key>=0 ? (y=alphabet[sAlphabet][(alphabet[sAlphabet].indexOf(tmp)+key<=aLen ? alphabet[sAlphabet].indexOf(tmp)+key:alphabet[sAlphabet].indexOf(tmp)+key-aLen-1)]):(y=alphabet[sAlphabet][(alphabet[sAlphabet].indexOf(tmp)+key>=0 ? alphabet[sAlphabet].indexOf(tmp)+key:alphabet[sAlphabet].indexOf(tmp)+key+aLen+1)]);
+            otp+=isUC(inp[i]) ? y:y.toLowerCase();
         }
     }
-    return output;
+    return otp;
 }
 
 const setselect=()=>{
-    const selector = document.querySelector("#selectcipher");
-    document.querySelector("#outputbox").style.fontFamily=(selector.value=="czekoladka") ? "Chocolate-Cipher": "Arial, Helvetica, sans-serif";
-    document.querySelector("#ceasarskeylbl").style.display = (selector.value=="cezara") ? "" : "none";
-    document.querySelector("#ceasarskey").style.display = (selector.value=="cezara") ? "" : "none";
-    selectedCipher = selector.value.toString();
+    let sel = document.querySelector("#selectcipher");
+    document.querySelector("#outputbox").style.fontFamily=(sel.value=="czekoladka") ? "Chocolate-Cipher": "Arial, Helvetica, sans-serif";
+    document.querySelector("#ceasarskeylbl").style.display = (sel.value=="cezara") ? "" : "none";
+    document.querySelector("#ceasarskey").style.display = (sel.value=="cezara") ? "" : "none";
+    sCipher = sel.value.toString();
 }
 
-const changepageclr=()=>{
-    // default is black bg
-    if(localStorage.getItem("pagecolor")===null||localStorage.getItem("pagecolor")=="black"){
-        localStorage.setItem("pagecolor","white");
-    } else if(localStorage.getItem("pagecolor")=="white"){
-        localStorage.setItem("pagecolor","black");
+const changepageclr=onload=>{
+    onload==true ? (lS.getItem("pagecolor")==null||lS.getItem("pagecolor")=="black") ? lS.setItem("pagecolor","black"):lS.setItem("pagecolor","white"):(lS.getItem("pagecolor")=="black") ? lS.setItem("pagecolor","white"): lS.setItem("pagecolor","black");
+    if(lS.getItem("pagecolor")=="black"){
+        rootStyle.setProperty('--main-bg-color','#111');
+        rootStyle.setProperty('--sub-bg-color','#44444486');
+        rootStyle.setProperty('--main-fg-color','#ddd');
+        rootStyle.setProperty('--accent-bg-color','#480');
+        rootStyle.setProperty('--accent-hover-bg-color','#590');
+        document.querySelector('h1').style.textShadow="none";
+        document.querySelector('#ceasarskeylbl').style.textShadow="none";
+        document.querySelector('h2#h21').style.textShadow="none";
+        document.querySelector('h2#h22').style.textShadow="none";
+        document.querySelector('label.select-alphabet-lbl').style.textShadow="none";
+    } else {
+        rootStyle.setProperty('--main-bg-color','#DDD');
+        rootStyle.setProperty('--sub-bg-color','#33333346');
+        rootStyle.setProperty('--main-fg-color','#FFF');
+        rootStyle.setProperty('--accent-bg-color','#555');
+        rootStyle.setProperty('--accent-hover-bg-color','#777');
+        document.querySelector('h1').style.textShadow="1px 1px 8px black";
+        document.querySelector('#ceasarskeylbl').style.textShadow="1px 1px 5px black";
+        document.querySelector('h2#h21').style.textShadow="1px 1px 5px black";
+        document.querySelector('h2#h22').style.textShadow="1px 1px 5px black";
+        document.querySelector('label.select-alphabet-lbl').style.textShadow="1px 1px 5px black";
     }
-    let pagecolor = localStorage.getItem("pagecolor");
-    pageclr(pagecolor);
-}
-
-const pageclr=(x)=>{
-    if(x=="black"){
-    document.querySelector(':root').style.setProperty('--main-bg-color','#111');
-    document.querySelector(':root').style.setProperty('--sub-bg-color','#44444486');
-    document.querySelector(':root').style.setProperty('--main-fg-color','#ddd');
-    document.querySelector(':root').style.setProperty('--accent-bg-color','#480');
-    document.querySelector(':root').style.setProperty('--accent-hover-bg-color','#590');
-    document.querySelector('h1').style.textShadow="none";
-    document.querySelector('#ceasarskeylbl').style.textShadow="none";
-    document.querySelector('h2#h21').style.textShadow="none";
-    document.querySelector('h2#h22').style.textShadow="none";
-    document.querySelector('label.select-alphabet-lbl').style.textShadow="none";
-}
-else{
-    document.querySelector(':root').style.setProperty('--main-bg-color','#DDD');
-    document.querySelector(':root').style.setProperty('--sub-bg-color','#33333346');
-    document.querySelector(':root').style.setProperty('--main-fg-color','#FFF');
-    document.querySelector(':root').style.setProperty('--accent-bg-color','#555');
-    document.querySelector(':root').style.setProperty('--accent-hover-bg-color','#777');
-    document.querySelector('h1').style.textShadow="1px 1px 8px black";
-    document.querySelector('#ceasarskeylbl').style.textShadow="1px 1px 5px black";
-    document.querySelector('h2#h21').style.textShadow="1px 1px 5px black";
-    document.querySelector('h2#h22').style.textShadow="1px 1px 5px black";
-    document.querySelector('label.select-alphabet-lbl').style.textShadow="1px 1px 5px black";
-}
 }
