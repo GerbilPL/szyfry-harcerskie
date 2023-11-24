@@ -12,30 +12,30 @@
 <body>
     <!-- Made with love and hate -; Gabriel Pilch, aka GerbilPL -->
     <div class="page-color-box">
-        <button id="pagecolor" class="pcb-btn">֎</button>
+        <button id="pcolor" class="pcb-btn">֎</button>
     </div>
     <div class="cipher-box">
         <h1 class="cipher-box-title">Szyfry harcerskie</h1>
-        <select id="selectcipher" class="select-cipher">
-            <option value="gaderypoluki">GA&dash;DE&dash;RY&dash;PO&dash;LU&dash;KI</option>
-            <option value="cezara">Szyfr Cezara</option>
-            <option value="czekoladka">Czekoladka (podgląd)</option>
-            <option value="morsa">Kod Morse'a</option>
+        <select id="sCipher" class="select-cipher">
+            <option value="gap">GA&dash;DE&dash;RY&dash;PO&dash;LU&dash;KI</option>
+            <option value="cea">Szyfr Cezara</option>
+            <option value="cho">Czekoladka (podgląd)</option>
+            <option value="mor">Kod Morse'a</option>
         </select>
-        <button type="button" id="decrypt" class="cipher-box-btn">Odszyfruj</button>
-        <button type="button" id="encrypt" class="cipher-box-btn">Zaszyfruj</button>
-        <label for="selectalphabet" class="select-alphabet-lbl">Alfabet: </label>
-        <select id="selectalphabet" class="select-alphabet">
+        <button type="button" id="dec" class="cipher-box-btn">Odszyfruj</button>
+        <button type="button" id="enc" class="cipher-box-btn">Zaszyfruj</button>
+        <label for="selAlpha" class="select-alphabet-lbl">Alfabet: </label>
+        <select id="selAlpha" class="select-alphabet">
             <option value="0">Angielski</option>
             <option value="1">Polski</option>
             <option value="2">Mieszany</option>
             <option value="3">Czekoladka</option>
         </select>
-        <div class="inl-ceasar"><label for="ceasarskey" id="ceasarskeylbl" class="select-alphabet-lbl" style="display: none;">Klucz: </label><input type="number" id="ceasarskey" class="cipher-box-input" value="5" min="-40" max="40"  style="display: none;"></div>
+        <div class="inl-ceasar"><label for="ceasarskey" id="ceasarskeylb" class="select-alphabet-lbl" style="display: none;">Klucz: </label><input type="number" id="ceasarskey" class="cipher-box-input" value="5" min="-40" max="40"  style="display: none;"></div>
         <h2 id="h21" class="cipher-box-subtitle">Tekst do zaszyfrowania:</h2>
-        <textarea id="inputbox" class="cipher-box-txt" spellcheck="false"></textarea>
+        <textarea id="inbox" class="cipher-box-txt" spellcheck="false"></textarea>
         <h2 id="h22" class="cipher-box-subtitle">Tekst do odszyfrowania:</h2>
-        <textarea id="outputbox" class="cipher-box-txt" spellcheck="false"></textarea>
+        <textarea id="outbox" class="cipher-box-txt" spellcheck="false"></textarea>
         <span class="author">Autor &ndash; Gabriel Pilch<br>Zrobione z ❤️</span>
     </div>
 </body>
